@@ -20,6 +20,8 @@ include(Catch)
 enable_testing()
 ##################### Catch2 Integration #####################
 add_executable(unit_tests test_polynomial_class.cpp
-        test_integrators.cpp)
+        test_integrators.cpp
+        test_file_reader.cpp)
 target_link_libraries(unit_tests PRIVATE Catch2::Catch2WithMain numerical_integrator)
-catch_discover_tests(unit_tests)
+catch_discover_tests(unit_tests
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/tests)
