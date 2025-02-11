@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
-project(assignment0 CXX C)
+project(assignment1 CXX C)
 
 include(FetchContent)
 
@@ -13,7 +13,7 @@ option(ASSIGNMENT1_BUILD_TESTS              "Build tests"                   ON)
 
 add_subdirectory(src)
 
-if(ASSIGNMENT0_BUILD_TESTS)
+if(ASSIGNMENT1_BUILD_TESTS)
     message(STATUS "Tests enabled")
     include(CTest)
     enable_testing()
