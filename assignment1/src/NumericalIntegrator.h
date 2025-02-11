@@ -38,9 +38,22 @@ enum class ChebyshevType {
 
 class Chebychev : public NumericalIntegrator {
 public:
+
+    /**
+     * Constructor for Chebyshev–Gauss quadrature
+     * @param n the number of points to use
+     * @param type the type of Chebychev to use: available options are ChebyshevType::FIRST_KIND and ChebyshevType::SECOND_KIND
+     */
     Chebychev(int n, ChebyshevType type);
 
-    double integrate(Polynomial &p, double lower_bound, double upper_bound) override;
+    /**
+     * * Integrates the Chebyshev for p over the interval -1 to 1
+     * @param p
+     * @param lower_bound must be -1
+     * @param upper_bound must be 1
+     * @return the integral of the polynomial over the interval -1 to 1
+     */
+    double integrate(Polynomial &p, double lower_bound=-1.0, double upper_bound=1.0) override;
 
     std::vector<double> getChebychevPoints();
     std::vector<double> getChebychevWeights();

@@ -150,6 +150,10 @@ TEST_CASE("Test Chebyshev Quadrature") {
             value = cb10.integrate(x_square, -1.0, 1.0);
             printf("Integrating chebychev x^2 from -1 to 1 and the expected value is 0.392699081698 and found %f\n", value);
             REQUIRE_THAT(value, Catch::Matchers::WithinRel(0.392699081698, tol));
+
+            value = cb10.integrate(x_square);
+            printf("Integrating chebychev x^2 from -1 to 1 and the expected value is 0.392699081698 and found %f\n", value);
+            REQUIRE_THAT(value, Catch::Matchers::WithinRel(0.392699081698, tol));
         }
     }
 }
