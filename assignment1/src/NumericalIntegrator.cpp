@@ -5,6 +5,7 @@
 #include "NumericalIntegrator.h"
 #include <cmath>
 #include <stdexcept>
+#include <cassert>
 
 NumericalIntegrator::NumericalIntegrator(std::vector<double> points,
                                          std::vector<double> weights) :
@@ -34,6 +35,7 @@ double NumericalIntegrator::integrate(Polynomial &p, double lower_bound, double 
 
 double NumericalIntegrator::calculateIntegralInUnitRange(Polynomial &p, std::vector<double> &points,
                                                          std::vector<double> &weights) {
+    assert(points.size() == weights.size());
     double integral = 0;
     for (int i = 0; i < points.size(); i++) {
         integral += weights[i] * p(points[i]);
@@ -73,5 +75,47 @@ GaussLegendre::GaussLegendre(int n) {
             throw std::runtime_error("Gauss-Legendre quadrature not implemented for n = " + std::to_string(n));
         }
     }
+}
+
+Chebychev::Chebychev(int n, ChebyshevType type) {
+    if (n < 1) {
+        throw std::runtime_error("Chebyshev polynomial order must be at least 1.");
+    }
+    points_ = std::vector<double>(n, 0.0);
+    weights_ = std::vector<double>(n, 0.0);
+    switch (type) {
+        case ChebyshevType::FIRST_KIND: {
+            for (int i = 0; i < n; i++) {
+                points_[i] = cos((2*(i+1) -1)/(2.0*n) * M_PI);
+                weights_[i] = M_PI / double(n);
+            }
+            break;
+        }
+        case ChebyshevType::SECOND_KIND: {
+            for (int i = 0; i < n; i++) {
+                points_[i] = cos((i+1) * M_PI / (n + 1));
+                weights_[i] = M_PI / double(n+1) * std::pow(sin((i+1)*M_PI/(n+1)), 2);
+            }
+            break;
+        }
+        default: {
+            throw std::runtime_error("Chebyshev type not implemented.");
+        }
+    }
+}
+
+double Chebychev::integrate(Polynomial &p, double lower_bound, double upper_bound) {
+    if (std::abs(lower_bound + 1.0) > 1e-10 || std::abs(upper_bound - 1.0) > 1e-10) {
+        throw std::runtime_error("Chebyshev polynomials are defined on the interval [-1, 1]. and only support this interval.");
+    }
+    return calculateIntegralInUnitRange(p, points_, weights_);
+}
+
+std::vector<double> Chebychev::getChebychevPoints() {
+    return points_;
+}
+
+std::vector<double> Chebychev::getChebychevWeights() {
+    return weights_;
 }
 

@@ -31,4 +31,22 @@ public:
     GaussLegendre(int n);
 };
 
+enum class ChebyshevType {
+    FIRST_KIND,
+    SECOND_KIND
+};
+
+class Chebychev : public NumericalIntegrator {
+public:
+    Chebychev(int n, ChebyshevType type);
+
+    double integrate(Polynomial &p, double lower_bound, double upper_bound) override;
+
+    std::vector<double> getChebychevPoints();
+    std::vector<double> getChebychevWeights();
+
+private:
+    ChebyshevType type_;
+};
+
 #endif //ASSIGNMENT1_NUMERICALINTEGRATOR_H
