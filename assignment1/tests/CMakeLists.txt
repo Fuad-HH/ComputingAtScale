@@ -19,6 +19,7 @@ include(CTest)
 include(Catch)
 enable_testing()
 ##################### Catch2 Integration #####################
-add_executable(unit_tests test_polynomial_class.cpp)
-target_link_libraries(unit_tests PRIVATE Catch2::Catch2WithMain polynomials)
+add_executable(unit_tests test_polynomial_class.cpp
+        test_integrators.cpp)
+target_link_libraries(unit_tests PRIVATE Catch2::Catch2WithMain numerical_integrator)
 catch_discover_tests(unit_tests)
