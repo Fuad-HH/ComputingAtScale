@@ -39,28 +39,23 @@ Matrix::Matrix(const char *mfilename) {
     auto *file_to_read = fopen(mfilename, "r");
     if (file_to_read == NULL)
     {
-        printf("File not found\n");
-        exit(1);
+        throw std::runtime_error("File not found\n");
     }
 
     if (mm_read_banner(file_to_read, &matcode) != 0) {
-        printf("Could not process Matrix Market banner for file 1.\n");
-        exit(1);
+        throw std::runtime_error("Could not process Matrix Market banner for file 1.\n");
     }
 
     if (!mm_is_real(matcode)){
-        printf("Works only for real valued matrices\n");
-        exit(1);
+        throw std::runtime_error("Works only for real valued matrices\n");
     }
 
     if (!mm_is_array(matcode)){
-        printf("Works only for array matrices since we are only working for dense matrices\n");
-        exit(1);
+        throw std::runtime_error("Works only for array matrices since we are only working for dense matrices\n");
     }
 
     if (mm_read_mtx_array_size(file_to_read, &rows_, &cols_) != 0) {
-        printf("Could not read matrix size for file.\n");
-        exit(1);
+        throw std::runtime_error("Matrix size reading unsuccessful.\n");
     }
 
     data_.resize(rows_*cols_);
